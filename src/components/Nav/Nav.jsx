@@ -1,6 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import { NavLink } from 'react-router-dom';
-import s from './Nav.module.css';
+import s from './Nav.module.css'
 
 const Nav = () => (
   <nav className={s.nav}>
