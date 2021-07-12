@@ -1,5 +1,7 @@
+import s from './Header.module.css';
+
 const Header = () => (
-  <header className="header">
+  <header className={s.header}>
     <img
       src="https://e7.pngegg.com/pngimages/41/701/png-clipart-logo-graphic-design-graphy-grapher-logo-graphy-angle-text.png"
       alt=""
