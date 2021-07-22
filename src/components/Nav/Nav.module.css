@@ -1,6 +1,6 @@
 .nav {
   grid-area: n;
-  background-color: darkgray;
+  background-color: lightgrey;
   padding: 20px;
 }
 
@@ -11,8 +11,4 @@
 
 .item a.activeLink {
   color: black;
-}
-
-.elements {
-  display: flex;
 }
