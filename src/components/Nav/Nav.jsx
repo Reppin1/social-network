@@ -1,25 +1,34 @@
-// eslint-disable-next-line no-unused-vars
 import { NavLink } from 'react-router-dom';
 import s from './Nav.module.css';
+import { SideBar } from './SideBar/SideBar';
 
-const Nav = () => (
-  <nav className={s.nav}>
-    <div className={s.item}>
-      <NavLink to="/profile" activeClassName={s.activeLink}>Profile</NavLink>
-    </div>
-    <div className={s.item}>
-      <NavLink to="/dialogs" activeClassName={s.activeLink}>Messages</NavLink>
-    </div>
-    <div className={s.item}>
-      <NavLink to="/news" activeClassName={s.activeLink}>News</NavLink>
-    </div>
-    <div className={s.item}>
-      <NavLink to="/music" activeClassName={s.activeLink}>Music</NavLink>
-    </div>
-    <div className={s.item}>
-      <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>
-    </div>
-  </nav>
-);
+const Nav = ({ store }) => {
+  const state = store.getState().sidebars;
+  const sidebarElements = state.sidebarData
+    .map((el) => <SideBar name={el.name} photo={el.photo} />);
+
+  return (
+    <nav className={s.nav}>
+      <div className={s.item}>
+        <NavLink to="/profile" activeClassName={s.activeLink}>Profile</NavLink>
+      </div>
+      <div className={s.item}>
+        <NavLink to="/dialogs" activeClassName={s.activeLink}>Messages</NavLink>
+      </div>
+      <div className={s.item}>
+        <NavLink to="/news" activeClassName={s.activeLink}>News</NavLink>
+      </div>
+      <div className={s.item}>
+        <NavLink to="/music" activeClassName={s.activeLink}>Music</NavLink>
+      </div>
+      <div className={s.item}>
+        <NavLink to="/settings" activeClassName={s.activeLink}>Settings</NavLink>
+      </div>
+      <div className={s.elements}>
+        { sidebarElements }
+      </div>
+    </nav>
+  );
+};
 
 export { Nav };

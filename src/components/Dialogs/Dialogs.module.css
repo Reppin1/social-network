@@ -1,3 +1,32 @@
-.item {
+.dialogs {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}
+
+.dialogsItem {
+  padding: 20px;
+  text-decoration: none;
+}
+
+.dialog a{
+  text-decoration: none;
+  color: white;
+}
+
+.dialog .activeLink {
+  color: greenyellow;
+}
+
+.img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50px;
+}
+
+.messages {
+  padding: 20px;
+}
+
+.message {
 
 }
