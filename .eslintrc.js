@@ -8,5 +8,7 @@ module.exports = {
     'react/jsx-no-bind': 'off',
     'import/named': 'off',
     'no-param-reassign': 'off',
+    'react/destructuring-assignment': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };

@@ -7,9 +7,9 @@ const Dialogs = ({
   dialog, changeMessageText, newMessageText, addNewMessage, messages,
 }) => {
   const dialogsElements = dialog
-    .map((d) => <DialogItem name={d.name} id={d.id} photo={d.photo} />);
+    .map((d) => <DialogItem name={d.name} id={d.id} key={d.id} photo={d.photo} />);
   const messagesElement = messages
-    .map((m) => <Message message={m.message} id={m.id} />);
+    .map((m) => <Message message={m.message} id={m.id} key={m.id} />);
 
   const newMessageElement = useRef(null);
 

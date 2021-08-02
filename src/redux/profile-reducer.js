@@ -5,10 +5,12 @@ const initialState = {
     { id: 3, message: 'AKMDSLKASM', likesCount: 55 },
   ],
   newPostText: '',
+  profile: null,
 };
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const ADD_POST = 'ADD-POST';
+const SET_USER_PROFILE = 'SET-USER-PROFILE';
 
 const profileReducer = (state = initialState, action) => {
   if (action.type === ADD_POST) {
@@ -18,11 +20,19 @@ const profileReducer = (state = initialState, action) => {
       likesCount: 0,
     };
     if (newPost.message.length >= 1) {
-      state.posts.push(newPost);
-      state.newPostText = '';
+      return {
+        ...state,
+        posts: [...state.posts, newPost],
+        newPostText: '',
+      };
     }
   } else if (action.type === UPDATE_NEW_POST_TEXT) {
-    state.newPostText = action.newText;
+    return {
+      ...state,
+      newPostText: action.newText,
+    };
+  } else if (action.type === SET_USER_PROFILE) {
+    return { ...state, profile: action.profile };
   }
   return state;
 };
@@ -34,6 +44,11 @@ export const addPostActiveCreator = () => ({
 export const onPostChangeActiveCreator = (text) => ({
   type: UPDATE_NEW_POST_TEXT,
   newText: text,
+});
+
+export const setUserProfile = (profile) => ({
+  type: SET_USER_PROFILE,
+  profile,
 });
 
 export { profileReducer };

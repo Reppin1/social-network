@@ -6,7 +6,7 @@ const MyPosts = ({
   posts, newPostText, addNewPost, changeOnPostText,
 }) => {
   const postsElement = posts
-    .map((post) => <Post message={post.message} likesCount={post.likesCount} />);
+    .map((post) => <Post message={post.message} key={post.id} likesCount={post.likesCount} />);
 
   const newPostElement = useRef(null);
 

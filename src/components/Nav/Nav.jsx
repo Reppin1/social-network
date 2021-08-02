@@ -5,7 +5,7 @@ import { SideBar } from './SideBar/SideBar';
 const Nav = ({ store }) => {
   const state = store.getState().sidebars;
   const sidebarElements = state.sidebarData
-    .map((el) => <SideBar name={el.name} photo={el.photo} />);
+    .map((el) => <SideBar name={el.name} key={el.id} photo={el.photo} />);
 
   return (
     <nav className={s.nav}>
@@ -14,6 +14,9 @@ const Nav = ({ store }) => {
       </div>
       <div className={s.item}>
         <NavLink to="/dialogs" activeClassName={s.activeLink}>Messages</NavLink>
+      </div>
+      <div className={s.item}>
+        <NavLink to="/users" activeClassName={s.activeLink}>Users</NavLink>
       </div>
       <div className={s.item}>
         <NavLink to="/news" activeClassName={s.activeLink}>News</NavLink>
