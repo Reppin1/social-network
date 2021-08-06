@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
 import userPhoto from '../../assets/images/ava.png';
-import { usersAPI } from '../../api/api';
 
 const Users = (props) => {
   const usersCount = Math.ceil(props.totalUserCount / props.pageSize);
@@ -46,12 +45,9 @@ const Users = (props) => {
                   ? (
                     <button
                       type="button"
+                      disabled={props.buttonDisables.some((id) => id === user.id)}
                       onClick={() => {
-                        usersAPI.unfollow(user.id).then((data) => {
-                          if (data.resultCode === 0) {
-                            props.unfollowUser(user.id);
-                          }
-                        });
+                        props.unfollowOnUser(user.id);
                       }}
                     >
                       Unfollowed
@@ -60,12 +56,9 @@ const Users = (props) => {
                   : (
                     <button
                       type="button"
+                      disabled={props.buttonDisables.some((id) => id === user.id)}
                       onClick={() => {
-                        usersAPI.follow(user.id).then((data) => {
-                          if (data.resultCode === 0) {
-                            props.fallowUser(user.id);
-                          }
-                        });
+                        props.followOnUser(user.id);
                       }}
                     >
                       Followed

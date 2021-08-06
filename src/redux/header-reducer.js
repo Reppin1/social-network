@@ -1,3 +1,5 @@
+import { usersAPI } from '../api/api';
+
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
 const SET_USER_INFO = 'SET-USER-INFO';
 
@@ -6,7 +8,8 @@ const initialState = {
   email: null,
   login: null,
   isAuth: false,
-  info: '1234567',
+  info: '',
+  myID: 18650,
 };
 
 const headerReducer = (state = initialState, actions) => {
@@ -40,3 +43,15 @@ export const setUserInfo = (info) => ({
 });
 
 export { headerReducer };
+
+export const getAuthUsersData = () => (dispatch) => {
+  usersAPI.auth().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData(data.data));
+      const ID = data.data.id;
+      usersAPI.getOneUser(ID).then((responses) => {
+        dispatch(setUserInfo(responses.data));
+      });
+    }
+  });
+};

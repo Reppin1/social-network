@@ -1,29 +1,21 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import { usersAPI } from '../../api/api';
 import { Users } from './Users';
 import {
-  changeCurrentPageAC, followAC, onTotalUserCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC,
+  followOnUser,
+  getUsers,
+  onTotalUserCountAC,
+  unfollowOnUser,
 } from '../../redux/users-reducer';
 import { Preloader } from '../common/Preloader/Preloader';
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
-    this.props.toggleIsFetchingAC(true);
-    usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then((response) => {
-      this.props.toggleIsFetchingAC(false);
-      this.props.setUsersAC(response.data.items);
-      this.props.onTotalUserCountAC(response.data.totalCount);
-    });
+    this.props.getUsers(this.props.currentPage, this.props.pageSize);
   }
 
   onPageChange = (pageNumber) => {
-    this.props.changeCurrentPageAC(pageNumber);
-    this.props.toggleIsFetchingAC(true);
-    usersAPI.getUsers(pageNumber, this.props.pageSize).then((response) => {
-      this.props.toggleIsFetchingAC(false);
-      this.props.setUsersAC(response.data.items);
-    });
+    this.props.getUsers(pageNumber, this.props.pageSize);
   }
 
   render() {
@@ -36,8 +28,9 @@ class UsersAPIComponent extends React.Component {
           currentPage={this.props.currentPage}
           onPageChange={this.onPageChange}
           users={this.props.users}
-          fallowUser={this.props.followAC}
-          unfollowUser={this.props.unfollowAC}
+          buttonDisables={this.props.buttonDisable}
+          followOnUser={this.props.followOnUser}
+          unfollowOnUser={this.props.unfollowOnUser}
         />
       </>
     );
@@ -50,9 +43,13 @@ const mapStateToProps = (state) => ({
   totalUserCount: state.usersPage.totalUserCount,
   currentPage: state.usersPage.currentPage,
   isFetching: state.usersPage.isFetching,
+  buttonDisable: state.usersPage.buttonDisable,
 });
 
 const UsersContainer = connect(mapStateToProps, {
-  followAC, unfollowAC, setUsersAC, changeCurrentPageAC, onTotalUserCountAC, toggleIsFetchingAC,
+  onTotalUserCountAC,
+  getUsers,
+  followOnUser,
+  unfollowOnUser,
 })(UsersAPIComponent);
 export { UsersContainer };
