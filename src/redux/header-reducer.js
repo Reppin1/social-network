@@ -1,4 +1,4 @@
-import { usersAPI } from '../api/api';
+import { authAPI, usersAPI } from '../api/api';
 
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
 const SET_USER_INFO = 'SET-USER-INFO';
@@ -45,7 +45,7 @@ export const setUserInfo = (info) => ({
 export { headerReducer };
 
 export const getAuthUsersData = () => (dispatch) => {
-  usersAPI.auth().then((data) => {
+  authAPI.auth().then((data) => {
     if (data.resultCode === 0) {
       dispatch(setAuthUserData(data.data));
       const ID = data.data.id;

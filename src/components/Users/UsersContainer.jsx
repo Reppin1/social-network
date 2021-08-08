@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React from 'react';
+import { compose } from 'redux';
 import { Users } from './Users';
 import {
   followOnUser,
@@ -8,6 +9,7 @@ import {
   unfollowOnUser,
 } from '../../redux/users-reducer';
 import { Preloader } from '../common/Preloader/Preloader';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
@@ -46,10 +48,13 @@ const mapStateToProps = (state) => ({
   buttonDisable: state.usersPage.buttonDisable,
 });
 
-const UsersContainer = connect(mapStateToProps, {
-  onTotalUserCountAC,
-  getUsers,
-  followOnUser,
-  unfollowOnUser,
-})(UsersAPIComponent);
+const UsersContainer = compose(
+  connect(mapStateToProps, {
+    onTotalUserCountAC,
+    getUsers,
+    followOnUser,
+    unfollowOnUser,
+  }),
+  withAuthRedirect,
+)(UsersAPIComponent);
 export { UsersContainer };
