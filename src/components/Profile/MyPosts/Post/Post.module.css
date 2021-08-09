@@ -1,9 +1,22 @@
 .item {
-  color: greenyellow;
+  color: #000000;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .item img {
   height: 60px;
   width: 60px;
   border-radius: 50px;
+}
+
+.post {
+  display: flex;
+  align-items: center;
+}
+
+.message {
+  margin-left: 20px;
 }

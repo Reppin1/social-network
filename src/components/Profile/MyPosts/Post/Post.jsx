@@ -2,12 +2,16 @@ import s from './Post.module.css';
 
 const Post = ({ message, likesCount }) => (
   <div className={s.item}>
-    <img src="https://static.zerochan.net/Hatsune.Miku.full.1695830.jpg" alt="" />
-    { message }
+    <div className={s.post}>
+      <img src="https://static.zerochan.net/Hatsune.Miku.full.1695830.jpg" alt="" />
+      <p className={s.message}>
+        {message}
+      </p>
+    </div>
     <div>
       <span>
         Like:
-        { likesCount }
+        {likesCount}
       </span>
     </div>
   </div>

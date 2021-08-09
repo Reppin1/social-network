@@ -1,40 +1,21 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import s from './MyPosts.module.css';
 import { Post } from './Post/Post';
+import { FormPosts } from './Post/FormPosts';
 
 const MyPosts = ({
-  posts, newPostText, addNewPost, changeOnPostText,
+  posts, addNewPost,
 }) => {
   const postsElement = posts
     .map((post) => <Post message={post.message} key={post.id} likesCount={post.likesCount} />);
 
-  const newPostElement = useRef(null);
-
-  const addPost = () => {
-    addNewPost();
-  };
-
-  const onPostChange = () => {
-    const text = newPostElement.current.value;
-    changeOnPostText(text);
+  const addNewPosts = (values) => {
+    addNewPost(values.value);
   };
 
   return (
     <div className={s.content}>
-      <h3>My Post</h3>
-      <div>
-        <div>
-          <textarea
-            placeholder="type post"
-            onChange={onPostChange}
-            ref={newPostElement}
-            value={newPostText}
-          />
-        </div>
-        <div>
-          <button type="button" onClick={addPost}>Add post</button>
-        </div>
-      </div>
+      <FormPosts addNewPosts={addNewPosts} />
       <div className={s.posts}>
         { postsElement }
       </div>

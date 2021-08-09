@@ -1,20 +1,32 @@
 .dialogs {
   display: grid;
-  grid-template-columns: 2fr 10fr;
+  grid-template-columns: 1fr 4fr;
+  width: 100%;
 }
 
 .dialogsItem {
-  padding: 20px;
   text-decoration: none;
+  background-color: white;
+  border-right: 5px solid #dce1e6;
+  padding: 10px 5px;
+}
+
+.dialog {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: background-color 300ms;
 }
 
 .dialog a{
   text-decoration: none;
-  color: white;
+  color: black;
+  padding-left: 10px;
 }
 
-.dialog .activeLink {
-  color: greenyellow;
+.dialog:hover {
+  background-color: #c5c9d0;
+  border-radius: 3px;
 }
 
 .img {
@@ -25,6 +37,7 @@
 
 .messages {
   padding: 20px;
+  background-color: white;
 }
 
 .message {

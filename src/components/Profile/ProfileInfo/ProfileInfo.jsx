@@ -7,30 +7,28 @@ const ProfileInfo = (props) => {
     return <Preloader />;
   }
   return (
-    <div>
-      <div className={s.descriptionBlock}>
-        <div>
-          {props.profile.fullName}
-        </div>
-        <div>
-          {
+    <div className={s.descriptionBlock}>
+      <div>
+        {props.profile.fullName}
+      </div>
+      <div>
+        {
           props.profile.photos.large
             ? <img src={props.profile.photos.large} alt="" /> : 'no Photo'
         }
-        </div>
-        <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+      </div>
+      <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+      <div>
+        {props.profile.aboutMe}
         <div>
-          {props.profile.aboutMe}
-          <div>
-            {props.profile.lookingForAJob ? 'Хочу на работу' : 'Не хочу'}
-          </div>
-          <li>
-            <ul>{props.profile.contacts.vk}</ul>
-            <ul>{props.profile.contacts.facebook}</ul>
-            <ul>{props.profile.contacts.twitter}</ul>
-            <ul>{props.profile.contacts.instagram}</ul>
-          </li>
+          {props.profile.lookingForAJob ? 'Хочу на работу' : 'Не хочу'}
         </div>
+        <li>
+          <ul>{props.profile.contacts.vk}</ul>
+          <ul>{props.profile.contacts.facebook}</ul>
+          <ul>{props.profile.contacts.twitter}</ul>
+          <ul>{props.profile.contacts.instagram}</ul>
+        </li>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { MyPosts } from './MyPosts';
-import { addPostActiveCreator, onPostChangeActiveCreator } from '../../../redux/profile-reducer';
+import { addPostActiveCreator } from '../../../redux/profile-reducer';
 
 const mapStateToProps = (state) => ({
   posts: state.profilePage.posts,
@@ -8,11 +8,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addNewPost: () => {
-    dispatch(addPostActiveCreator());
-  },
-  changeOnPostText: (text) => {
-    dispatch(onPostChangeActiveCreator(text));
+  addNewPost: (values) => {
+    dispatch(addPostActiveCreator(values));
   },
 });
 

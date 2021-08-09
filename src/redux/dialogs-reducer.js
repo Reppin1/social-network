@@ -1,4 +1,3 @@
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 const ADD_MESSAGE = 'ADD-MESSAGE';
 
 const initialState = {
@@ -7,7 +6,6 @@ const initialState = {
     { id: 2, message: 'How are you?' },
     { id: 3, message: 'AMSDOS' },
   ],
-  newMessageText: '',
   dialogData: [
     {
       id: 1,
@@ -37,32 +35,21 @@ const dialogsReducer = (state = initialState, action) => {
     case ADD_MESSAGE: {
       const newMessage = {
         id: state.dialogData.length + 1,
-        message: state.newMessageText,
+        message: action.message,
       };
       return {
         ...state,
         messagesData: [...state.messagesData, newMessage],
-        newMessageText: '',
       };
     }
-    case UPDATE_NEW_MESSAGE_TEXT:
-      // eslint-disable-next-line no-case-declarations
-      return {
-        ...state,
-        newMessageText: action.newMessage,
-      };
     default:
       return state;
   }
 };
 
-export const onMessageChangeActiveCreator = (text) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  newMessage: text,
-});
-
-export const addNewMessagesActiveCreator = () => ({
+export const addNewMessagesActiveCreator = (message) => ({
   type: ADD_MESSAGE,
+  message,
 });
 
 export { dialogsReducer };

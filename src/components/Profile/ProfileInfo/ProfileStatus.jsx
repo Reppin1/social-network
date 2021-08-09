@@ -17,7 +17,7 @@ class ProfileStatus extends React.Component {
     this.setState({
       editMode: false,
     });
-    this.props.updateStatus(this.state.status);
+    setTimeout(this.props.updateStatus(this.state.status), 4000);
   }
 
   onchangeStatus = (e) => {
