@@ -17,8 +17,8 @@ const headerReducer = (state = initialState, actions) => {
     case SET_AUTH_USER_DATA: {
       return {
         ...state,
-        ...actions.data,
-        isAuth: true,
+        ...actions.payload,
+        isAuth: actions.isAuth,
       };
     }
     case SET_USER_INFO: {
@@ -32,9 +32,10 @@ const headerReducer = (state = initialState, actions) => {
   }
 };
 
-export const setAuthUserData = (item) => ({
+export const setAuthUserData = (item, isAuth) => ({
   type: SET_AUTH_USER_DATA,
-  data: item,
+  payload: item,
+  isAuth,
 });
 
 export const setUserInfo = (info) => ({
@@ -47,11 +48,27 @@ export { headerReducer };
 export const getAuthUsersData = () => (dispatch) => {
   authAPI.auth().then((data) => {
     if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data));
+      dispatch(setAuthUserData(data.data, true));
       const ID = data.data.id;
       usersAPI.getOneUser(ID).then((responses) => {
         dispatch(setUserInfo(responses.data));
       });
+    }
+  });
+};
+
+export const loginn = (email, password, rememberMe) => (dispatch) => {
+  authAPI.login(email, password, rememberMe).then((response) => {
+    if (response.resultCode === 0) {
+      dispatch(getAuthUsersData());
+    }
+  });
+};
+
+export const logout = () => (dispatch) => {
+  authAPI.logout().then((response) => {
+    if (response.resultCode === 0) {
+      dispatch(setAuthUserData(null, false));
     }
   });
 };
