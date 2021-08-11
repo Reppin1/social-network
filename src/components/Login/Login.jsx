@@ -6,9 +6,8 @@ import { Redirect } from 'react-router-dom';
 import style from './Login.module.css';
 
 const validation = yup.object().shape({
-  login: yup.string().min(2, 'Too Short!').max(30, 'Too Long!').required('Обязательно'),
-  password: yup.string().min(7, 'Too Short!').required('Обязательно'),
-  email: yup.string().required('Обязательно'),
+  password: yup.string().min(7, 'Too Short!').required('Please enter password'),
+  email: yup.string().email('Not a valid email').required('Please enter email'),
 });
 
 const Login = (props) => {
@@ -21,27 +20,30 @@ const Login = (props) => {
       <h1 className={style.head}>Login</h1>
       <Formik
         initialValues={{
-          login: '',
           password: '',
           email: '',
           rememberMe: false,
+          captcha: '',
         }}
         validationSchema={validation}
-        onSubmit={(values) => {
-          props.loginn(values.email, values.password, values.rememberMe);
+        onSubmit={(values, { setStatus, setSubmitting }) => {
+          props.loginn(values.email, values.password, values.rememberMe, setStatus, values.captcha);
+          setSubmitting(false);
         }}
       >
         {({
           values, handleChange, handleBlur,
-          isValid, dirty,
+          isValid, dirty, status, errors, touched,
         }) => (
           <Form className={style.form}>
+            <div className={style.error}>{status}</div>
             <div className={style.items}>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="email" className={style.lable}>Email</label>
               <Field
-                className={style.input}
-                type="text"
+                id="email"
+                className={`${style.input} ${touched.email && errors.email ? style.invalidInput : ''}`}
+                type="email"
                 name="email"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -54,7 +56,8 @@ const Login = (props) => {
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="password" className={style.lable}>Password</label>
               <Field
-                className={style.input}
+                id="password"
+                className={`${style.input} ${touched.password && errors.password ? style.invalidInput : ''}`}
                 type="password"
                 name="password"
                 onChange={handleChange}
@@ -66,18 +69,10 @@ const Login = (props) => {
             <div className={style.error}><ErrorMessage name="password" /></div>
             <div className={style.items}>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="login" className={style.lable}>Login</label>
-              <Field
-                className={style.input}
-                type="text"
-                name="login"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.login}
-                placeholder="login"
-              />
+              <label htmlFor="captcha" className={style.captcha}>Captcha</label>
+              <Field className={style.input} type="input" name="captcha" />
             </div>
-            <div className={style.error}><ErrorMessage name="login" /></div>
+            <img src={props.urlCaptcha} alt="" />
             <div className={style.remember}>
               <Field className={style.checkbox} type="checkbox" name="Remember me" />
               Remember Me

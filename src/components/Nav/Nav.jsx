@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom';
 import s from './Nav.module.css';
 import { SideBar } from './SideBar/SideBar';
 
-const Nav = ({ store }) => {
-  const state = store.getState().sidebars;
-  const sidebarElements = state.sidebarData
+const Nav = (props) => {
+  const state = props.sidebarData;
+  const sidebarElements = state
     .map((el) => <SideBar name={el.name} key={el.id} photo={el.photo} />);
 
   return (

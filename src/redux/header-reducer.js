@@ -1,7 +1,8 @@
-import { authAPI, usersAPI } from '../api/api';
+import { authAPI, captchaAPI, usersAPI } from '../api/api';
 
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
 const SET_USER_INFO = 'SET-USER-INFO';
+const SET_CAPTCHA = 'SET-CAPTCHA';
 
 const initialState = {
   id: null,
@@ -9,7 +10,7 @@ const initialState = {
   login: null,
   isAuth: false,
   info: '',
-  myID: 18650,
+  urlCaptcha: null,
 };
 
 const headerReducer = (state = initialState, actions) => {
@@ -27,10 +28,21 @@ const headerReducer = (state = initialState, actions) => {
         info: actions.info,
       };
     }
+    case SET_CAPTCHA: {
+      return {
+        ...state,
+        urlCaptcha: actions.urlCaptcha,
+      };
+    }
     default:
       return state;
   }
 };
+
+export const setCaptcha = (urlCaptcha) => ({
+  type: SET_CAPTCHA,
+  urlCaptcha,
+});
 
 export const setAuthUserData = (item, isAuth) => ({
   type: SET_AUTH_USER_DATA,
@@ -45,30 +57,42 @@ export const setUserInfo = (info) => ({
 
 export { headerReducer };
 
-export const getAuthUsersData = () => (dispatch) => {
-  authAPI.auth().then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data, true));
-      const ID = data.data.id;
-      usersAPI.getOneUser(ID).then((responses) => {
-        dispatch(setUserInfo(responses.data));
-      });
+export const getAuthUsersData = () => (dispatch) => authAPI.auth().then((data) => {
+  if (data.resultCode === 0) {
+    dispatch(setAuthUserData(data.data, true));
+    const ID = data.data.id;
+    usersAPI.getOneUser(ID).then((responses) => {
+      dispatch(setUserInfo(responses.data));
+    });
+  }
+});
+
+export const loginn = (email, password, rememberMe, setStatus, captcha) => (dispatch) => {
+  authAPI.login(email, password, rememberMe, captcha).then((response) => {
+    if (response.resultCode === 0) {
+      dispatch(getAuthUsersData());
+    } else {
+      setStatus(response.messages);
     }
   });
 };
 
-export const loginn = (email, password, rememberMe) => (dispatch) => {
-  authAPI.login(email, password, rememberMe).then((response) => {
-    if (response.resultCode === 0) {
-      dispatch(getAuthUsersData());
-    }
+export const getCaptcha = () => (dispatch) => {
+  captchaAPI.getCaptcha().then((response) => {
+    dispatch(setCaptcha(response.data.url));
   });
 };
 
 export const logout = () => (dispatch) => {
   authAPI.logout().then((response) => {
     if (response.resultCode === 0) {
-      dispatch(setAuthUserData(null, false));
+      dispatch(setAuthUserData({
+        id: null,
+        email: null,
+        login: null,
+        info: '',
+        urlCaptcha: null,
+      }, false));
     }
   });
 };

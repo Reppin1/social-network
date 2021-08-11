@@ -15,7 +15,16 @@
   border-radius: 5px;
 }
 
+.invalidInput{
+  border: 2px solid red;
+}
+
 .lable {
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.captcha {
   margin-bottom: 5px;
   margin-top: 10px;
 }
