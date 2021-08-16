@@ -1,10 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styles from './users.module.css';
 import userPhoto from '../../assets/images/ava.png';
 
 const Users = (props) => {
-  const usersCount = Math.ceil(props.totalUserCount / props.pageSize);
+  const users = useSelector((state) => state.usersPage.users);
+  const pageSize = useSelector((state) => state.usersPage.pageSize);
+  const totalUserCount = useSelector((state) => state.usersPage.totalUserCount);
+  const thisPage = useSelector((state) => state.usersPage.thisPage);
+  const buttonDisable = useSelector((state) => state.usersPage.buttonDisable);
+  const usersCount = Math.ceil(totalUserCount / pageSize);
   const pages = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 1; i <= usersCount; i++) {
@@ -18,7 +24,7 @@ const Users = (props) => {
           // eslint-disable-next-line max-len
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
           <span
-            className={props.currentPage === p ? styles.selected : ''}
+            className={thisPage === p ? styles.selected : ''}
             onClick={() => {
               props.onPageChange(p);
             }}
@@ -28,7 +34,7 @@ const Users = (props) => {
         ))}
       </div>
       {
-        props.users.map((user) => (
+        users.map((user) => (
           <div key={user.id}>
             <span>
               <div>
@@ -45,7 +51,7 @@ const Users = (props) => {
                   ? (
                     <button
                       type="button"
-                      disabled={props.buttonDisables.some((id) => id === user.id)}
+                      disabled={buttonDisable.some((id) => id === user.id)}
                       onClick={() => {
                         props.unfollowOnUser(user.id);
                       }}
@@ -56,7 +62,7 @@ const Users = (props) => {
                   : (
                     <button
                       type="button"
-                      disabled={props.buttonDisables.some((id) => id === user.id)}
+                      disabled={buttonDisable.some((id) => id === user.id)}
                       onClick={() => {
                         props.followOnUser(user.id);
                       }}

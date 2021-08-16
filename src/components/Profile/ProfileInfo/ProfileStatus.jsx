@@ -1,56 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-class ProfileStatus extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    editMode: false,
-    status: this.props.status,
-  }
+const ProfileStatus = (props) => {
+  const [editMode, setEditMode] = useState(false);
+  const [status, setStatus] = useState(props.status);
 
-  activateEditMode = () => {
-    this.setState({
-      editMode: true,
-    });
-  }
+  useEffect(() => {
+    setStatus(props.status);
+  }, [props.status]);
 
-  deactivateEditMode = () => {
-    this.setState({
-      editMode: false,
-    });
-    setTimeout(this.props.updateStatus(this.state.status), 4000);
-  }
+  const activateEditMode = () => {
+    setEditMode(true);
+  };
 
-  onchangeStatus = (e) => {
-    this.setState({
-      status: e.currentTarget.value,
-    });
-  }
+  const deactivateEditMode = () => {
+    setEditMode(false);
+    props.updateStatus(status);
+  };
 
-  render() {
-    return (
-      <div>
-        {
-          !this.state.editMode && (
+  const onChangeStatus = (e) => {
+    setStatus(e.currentTarget.value);
+  };
+
+  return (
+    <div>
+      {
+        !editMode && (
           <div>
             <span onDoubleClick={
-              this.activateEditMode
+              activateEditMode
             }
             >
-              {this.props.status || '----'}
+              {status || '----'}
             </span>
           </div>
-          )
-        }
-        {this.state.editMode
+        )
+      }
+      {editMode
       && (
-      <div>
-        {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
-        <input type="text" onChange={this.onchangeStatus} autoFocus onBlur={this.deactivateEditMode} placeholder="Set status" value={this.state.status} />
-      </div>
+        <div>
+          <input
+            type="text"
+            onChange={onChangeStatus}
+            onBlur={deactivateEditMode}
+            placeholder="Set status"
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
+            autoFocus
+            value={status}
+          />
+        </div>
       )}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export { ProfileStatus };
