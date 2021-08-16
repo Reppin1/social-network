@@ -4,17 +4,19 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Profile } from './Profile';
 import {
-  getOneUser, getStatus, setStatus, updateStatus,
+  getOneUsers, getStatus, setStatus, updateStatus,
 } from '../../redux/profile-reducer';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 class ProfileContainerAPI extends React.Component {
   componentDidMount() {
+    // eslint-disable-next-line no-debugger
+    debugger;
     let userID = this.props.match.params.userId;
     if (!userID) {
       userID = this.props.myID;
     }
-    this.props.getOneUser(userID);
+    this.props.getOneUsers(userID);
     this.props.getStatus(userID);
   }
 
@@ -39,7 +41,7 @@ const mapStateToProps = (state) => ({
 const ProfileContainer = compose(
   connect(mapStateToProps,
     {
-      getOneUser,
+      getOneUsers,
       setStatus,
       updateStatus,
       getStatus,

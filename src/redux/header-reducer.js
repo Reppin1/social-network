@@ -67,14 +67,13 @@ export const getAuthUsersData = () => (dispatch) => authAPI.auth().then((data) =
   }
 });
 
-export const loginn = (email, password, rememberMe, setStatus, captcha) => (dispatch) => {
-  authAPI.login(email, password, rememberMe, captcha).then((response) => {
-    if (response.resultCode === 0) {
-      dispatch(getAuthUsersData());
-    } else {
-      setStatus(response.messages);
-    }
-  });
+export const loginn = (email, password, rememberMe, setStatus, captcha) => async (dispatch) => {
+  const response = await authAPI.login(email, password, rememberMe, captcha);
+  if (response.data.resultCode === 0) {
+    dispatch(getAuthUsersData());
+  } else {
+    setStatus(response.data.messages);
+  }
 };
 
 export const getCaptcha = () => (dispatch) => {
@@ -83,16 +82,15 @@ export const getCaptcha = () => (dispatch) => {
   });
 };
 
-export const logout = () => (dispatch) => {
-  authAPI.logout().then((response) => {
-    if (response.resultCode === 0) {
-      dispatch(setAuthUserData({
-        id: null,
-        email: null,
-        login: null,
-        info: '',
-        urlCaptcha: null,
-      }, false));
-    }
-  });
+export const logout = () => async (dispatch) => {
+  const response = await authAPI.logout();
+  if (response.data.resultCode === 0) {
+    dispatch(setAuthUserData({
+      id: null,
+      email: null,
+      login: null,
+      info: '',
+      urlCaptcha: null,
+    }, false));
+  }
 };

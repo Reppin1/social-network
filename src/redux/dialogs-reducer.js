@@ -34,7 +34,7 @@ const dialogsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_MESSAGE: {
       const newMessage = {
-        id: state.dialogData.length + 1,
+        id: state.messagesData.length + 1,
         message: action.message,
       };
       return {

@@ -102,32 +102,29 @@ export const toggleButtonDisableAC = (buttonActions, userId) => ({
   userId,
 });
 
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
+export const getUsers = (currentPage, pageSize) => async (dispatch) => {
   dispatch(toggleIsFetchingAC(true));
   dispatch(changeCurrentPageAC(currentPage));
-  usersAPI.getUsers(currentPage, pageSize).then((response) => {
-    dispatch(toggleIsFetchingAC(false));
-    dispatch(setUsersAC(response.data.items));
-    dispatch(onTotalUserCountAC(response.data.totalCount));
-  });
+  const response = await usersAPI.getUsers(currentPage, pageSize);
+  dispatch(toggleIsFetchingAC(false));
+  dispatch(setUsersAC(response.data.items));
+  dispatch(onTotalUserCountAC(response.data.totalCount));
 };
 
-export const followOnUser = (userId) => (dispatch) => {
+export const followOnUser = (userId) => async (dispatch) => {
   dispatch(toggleButtonDisableAC(true, userId));
-  usersAPI.follow(userId).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(followAC(userId));
-    }
-    dispatch(toggleButtonDisableAC(false, userId));
-  });
+  const data = await usersAPI.follow(userId);
+  if (data.data.resultCode === 0) {
+    dispatch(followAC(userId));
+  }
+  dispatch(toggleButtonDisableAC(false, userId));
 };
 
-export const unfollowOnUser = (userId) => (dispatch) => {
+export const unfollowOnUser = (userId) => async (dispatch) => {
   dispatch(toggleButtonDisableAC(true, userId));
-  usersAPI.unfollow(userId).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(unfollowAC(userId));
-    }
-    dispatch(toggleButtonDisableAC(false, userId));
-  });
+  const data = await usersAPI.unfollow(userId);
+  if (data.data.resultCode === 0) {
+    dispatch(unfollowAC(userId));
+  }
+  dispatch(toggleButtonDisableAC(false, userId));
 };
