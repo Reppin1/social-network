@@ -12,7 +12,7 @@ const initialState = {
   users: [],
   pageSize: 5,
   totalUserCount: 0,
-  currentPage: 1,
+  thisPage: 1,
   isFetching: false,
   buttonDisable: [],
 };
@@ -45,7 +45,7 @@ export const usersReducers = (state = initialState, actions) => {
       return { ...state, users: actions.users };
     }
     case CHANGE_CURRENT_PAGE: {
-      return { ...state, currentPage: actions.currentPage };
+      return { ...state, thisPage: actions.thisPage };
     }
     case CHANGE_TOTAL_COUNT: {
       return { ...state, totalUserCount: actions.countUsers };
@@ -83,7 +83,7 @@ export const setUsersAC = (users) => ({
 
 export const changeCurrentPageAC = (page) => ({
   type: CHANGE_CURRENT_PAGE,
-  currentPage: page,
+  thisPage: page,
 });
 
 export const onTotalUserCountAC = (countUsers) => ({

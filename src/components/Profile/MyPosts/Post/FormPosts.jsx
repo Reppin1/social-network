@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import styles from './FormPosts.module.css';
 
 const validation = yup.object().shape({
-  value: yup.string().typeError('Должно быть строкой').min(1, 'qwdawC').trim(),
+  value: yup.string().typeError('Должно быть строкой').trim().min(1, 'qwdawC'),
 });
 
 const FormPosts = (props) => (
@@ -13,10 +13,13 @@ const FormPosts = (props) => (
         value: '',
       }}
       validationSchema={validation}
-      onSubmit={(values) => props.addNewPosts(values)}
+      onSubmit={(values, { resetForm }) => {
+        props.addNewPosts(values);
+        resetForm();
+      }}
     >
       {({
-        values, handleChange,
+        values, handleChange, handleBlur,
       }) => (
         <Form className={styles.content}>
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -25,6 +28,7 @@ const FormPosts = (props) => (
             component="textarea"
             name="value"
             onChange={handleChange}
+            onBlur={handleBlur}
             value={values.value}
             placeholder="writte a post"
           />

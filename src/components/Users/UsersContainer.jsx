@@ -13,7 +13,7 @@ import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    this.props.getUsers(this.props.thisPage, this.props.pageSize);
   }
 
   onPageChange = (pageNumber) => {
@@ -23,14 +23,9 @@ class UsersAPIComponent extends React.Component {
   render() {
     return (
       <>
-        {this.props.isFetching ? <Preloader /> : null}
+        {this.isFetching ? <Preloader /> : null}
         <Users
-          totalUserCount={this.props.totalUserCount}
-          pageSize={this.props.pageSize}
-          currentPage={this.props.currentPage}
           onPageChange={this.onPageChange}
-          users={this.props.users}
-          buttonDisables={this.props.buttonDisable}
           followOnUser={this.props.followOnUser}
           unfollowOnUser={this.props.unfollowOnUser}
         />
@@ -40,12 +35,9 @@ class UsersAPIComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.usersPage.users,
-  pageSize: state.usersPage.pageSize,
-  totalUserCount: state.usersPage.totalUserCount,
-  currentPage: state.usersPage.currentPage,
   isFetching: state.usersPage.isFetching,
-  buttonDisable: state.usersPage.buttonDisable,
+  pageSize: state.usersPage.pageSize,
+  thisPage: state.usersPage.thisPage,
 });
 
 const UsersContainer = compose(
