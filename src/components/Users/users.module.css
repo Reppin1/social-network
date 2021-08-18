@@ -3,6 +3,17 @@
   height: 200px;
 }
 
+.main {
+
+}
+
+.info {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 5px;
+}
+
 .selected {
   color: aquamarine;
 }

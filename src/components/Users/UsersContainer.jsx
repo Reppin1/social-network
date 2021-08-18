@@ -49,4 +49,4 @@ const UsersContainer = compose(
   }),
   withAuthRedirect,
 )(UsersAPIComponent);
-export { UsersContainer };
+export default UsersContainer;

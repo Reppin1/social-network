@@ -21,4 +21,4 @@ const DialogsContainer = compose(
   withAuthRedirect,
 )(Dialogs);
 
-export { DialogsContainer };
+export default DialogsContainer;

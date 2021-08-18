@@ -10,8 +10,6 @@ import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 class ProfileContainerAPI extends React.Component {
   componentDidMount() {
-    // eslint-disable-next-line no-debugger
-    debugger;
     let userID = this.props.match.params.userId;
     if (!userID) {
       userID = this.props.myID;
